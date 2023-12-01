@@ -1,0 +1,23 @@
+{
+  "name": "adventofcode-2023",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "repository": "git@github.com:raahede/adventofcode-2023.git",
+  "author": "Frej Raahede Nielsen <frejraahede@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.2",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/parser": "^6.13.1",
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.1.0",
+    "tsx": "^4.6.1",
+    "typescript": "^5.3.2",
+    "vitest": "^0.34.6"
+  }
+}
