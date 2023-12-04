@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
   concatNumberFromFirstAndLastItem,
-  getNumbersAndWordNumbersFromString,
   getNumbersFromString,
   getRowResultB,
   getRowsFromTextBlock,
@@ -32,7 +31,7 @@ zoneight234
 `;
 
 describe('getRowsFromTextBlock', () => {
-  it('returns cleaned rows from text block', async () => {
+  it('returns cleaned rows from text block', () => {
     expect(getRowsFromTextBlock(testData1)).toStrictEqual([
       '1abc2',
       'pqr3stu8vwx',
@@ -42,28 +41,8 @@ describe('getRowsFromTextBlock', () => {
   });
 });
 
-describe('getNumbersAndWordNumbersFromString', () => {
-  it('returns numbers and numbers presented by words as numbers -- in the correct order', async () => {
-    expect(
-      getNumbersAndWordNumbersFromString('eighthreegjisevenine'),
-    ).toStrictEqual([83, 79]);
-
-    expect(getNumbersAndWordNumbersFromString('two1nine')).toStrictEqual([
-      2, 1, 9,
-    ]);
-
-    expect(getNumbersAndWordNumbersFromString('eightwothree')).toStrictEqual([
-      82, 3,
-    ]);
-
-    expect(getNumbersAndWordNumbersFromString('7pqrstsixteen')).toStrictEqual([
-      7, 6,
-    ]);
-  });
-});
-
 describe('getNumbersFromString', () => {
-  it('returns all numbers from string', async () => {
+  it('returns all numbers from string', () => {
     expect(getNumbersFromString('1abc2')).toStrictEqual([1, 2]);
     expect(getNumbersFromString('pqr3stu8vwx')).toStrictEqual([3, 8]);
     expect(getNumbersFromString('a1b2c3d4e5f')).toStrictEqual([1, 2, 3, 4, 5]);
@@ -72,45 +51,47 @@ describe('getNumbersFromString', () => {
 });
 
 describe('concatNumberFromFirstAndLastItem', () => {
-  it('concats only first and last item', async () => {
+  it('concats only first and last item', () => {
     expect(concatNumberFromFirstAndLastItem([3, 8])).toBe(38);
     expect(concatNumberFromFirstAndLastItem([1, 2, 3, 4, 5])).toBe(15);
   });
 
-  it('if only one item, return it as first and second', async () => {
+  it('if only one item, return it as first and second', () => {
     expect(concatNumberFromFirstAndLastItem([7])).toBe(77);
   });
 });
 
-describe('getRowResultB', () => {
-  it('gets concatenated number from string', async () => {
-    expect(getRowResultB('two1nine')).toBe(29);
-    expect(getRowResultB('eightwothree')).toBe(823);
-    expect(getRowResultB('abcone2threexyz')).toBe(13);
-    expect(getRowResultB('xtwone3four')).toBe(214);
-    expect(getRowResultB('4nineeightseven2')).toBe(42);
-    expect(getRowResultB('zoneight234')).toBe(184);
-    expect(getRowResultB('7pqrstsixteen')).toBe(76);
-    expect(getRowResultB('eighthreegjisevenine')).toBe(8379);
-  });
-});
-
 describe('getSum', () => {
-  it('calculates sum of numbers', async () => {
+  it('calculates sum of numbers', () => {
     expect(getSum([12, 38, 15, 77])).toBe(142);
     expect(getSum([29, 83, 13, 24, 42, 14, 76])).toBe(281);
   });
 });
 
+describe('getRowResultB', () => {
+  it('gets concatenated number from string', () => {
+    expect(getRowResultB('two1nine')).toBe(29);
+    expect(getRowResultB('eightwothree')).toBe(83);
+    expect(getRowResultB('abcone2threexyz')).toBe(13);
+    expect(getRowResultB('xtwone3four')).toBe(24);
+    expect(getRowResultB('4nineeightseven2')).toBe(42);
+    expect(getRowResultB('zoneight234')).toBe(14);
+    expect(getRowResultB('7pqrstsixteen')).toBe(76);
+    expect(getRowResultB('eighthreegjisevenine')).toBe(89);
+    expect(
+      getRowResultB('9fgsixzkbscvbxdsfive6spjfhzxbzvgbvrthreeoneightn'),
+    ).toBe(98);
+  });
+});
+
 describe('solvePuzzleA', () => {
-  it('does the thing...', async () => {
+  it('does the thing...', () => {
     expect(solvePuzzleA(testData1)).toBe(142);
   });
 });
 
 describe('solvePuzzleB', () => {
-  it('does the thing...', async () => {
-    // fc this, the test data is wrong
-    expect(solvePuzzleB(testData2)).not.toBe(281);
+  it('does the thing...', () => {
+    expect(solvePuzzleB(testData2)).toBe(281);
   });
 });

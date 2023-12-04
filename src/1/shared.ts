@@ -13,18 +13,19 @@ export const getNumbersFromString = (input: string): number[] => {
 };
 
 export const getNumbersAndWordNumbersFromString = (input: string) => {
-  const randomFuckerNumberWords = [
-    'oneight',
-    'twone',
-    'threeight',
-    'fiveight',
-    'sevenine',
-    'eightwo',
-    'eighthree',
-    'nineight',
-  ];
+  // const randomFuckerNumberWords = [
+  //   'oneight',
+  //   'twone',
+  //   'threeight',
+  //   'fiveight',
+  //   'sevenine',
+  //   'eightwo',
+  //   'eighthree',
+  //   'nineight',
+  // ];
 
-  const randomFuckerNumbers = [18, 21, 38, 58, 79, 82, 83, 98];
+  // const randomFuckerNumbers = [18, 21, 38, 58, 79, 82, 83, 98];
+  // const randomFuckerNumbersIntendedValue = [1, 2, 3, 5, 7, 8, 8, 9];
 
   const numberWords = [
     'one',
@@ -40,11 +41,11 @@ export const getNumbersAndWordNumbersFromString = (input: string) => {
 
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-  const randomFuckerWordsIndexes = randomFuckerNumberWords.map((str, index) =>
-    input.indexOf(str) !== -1
-      ? [randomFuckerNumbers[index], input.indexOf(str)]
-      : [],
-  );
+  // const randomFuckerWordsIndexes = randomFuckerNumberWords.map((str, index) =>
+  //   input.indexOf(str) !== -1
+  //     ? [randomFuckerNumbers[index], input.indexOf(str)]
+  //     : [],
+  // );
 
   const normalWordIndexes = numbers.map((num) => {
     const strIndex = input.indexOf(num.toString());
@@ -57,25 +58,34 @@ export const getNumbersAndWordNumbersFromString = (input: string) => {
 
   const result = normalWordIndexes
     .concat(numberIndexes)
-    .concat(randomFuckerWordsIndexes)
+    // .concat(randomFuckerWordsIndexes)
     .filter((item) => item.length)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     .sort((a, b) => a[1] - b[1])
     .flatMap((item) => item[0]);
 
-  const deleteIndexes: number[] = [];
+  return result;
 
-  randomFuckerNumbers.forEach((mfNum) => {
-    const i = result.indexOf(mfNum);
+  // const deleteIndexes: number[] = [];
 
-    if (i !== -1) {
-      deleteIndexes.push(i - 1);
-      deleteIndexes.push(i + 1);
-    }
-  });
+  // randomFuckerNumbers.forEach((mfNum) => {
+  //   const i = result.indexOf(mfNum);
 
-  return result.filter((_, index) => !deleteIndexes.includes(index));
+  //   if (i !== -1) {
+  //     deleteIndexes.push(i - 1);
+  //     deleteIndexes.push(i + 1);
+  //   }
+  // });
+
+  // const filteredResult = result.filter(
+  //   (_, index) => !deleteIndexes.includes(index),
+  // );
+
+  // return filteredResult.map((item) => {
+  //   const i = randomFuckerNumbers.indexOf(item);
+  //   return i !== -1 ? randomFuckerNumbersIntendedValue[i] : item;
+  // });
 };
 
 export const concatNumberFromFirstAndLastItem = (input: number[]): number => {
@@ -102,8 +112,9 @@ export const solvePuzzleA = (input: string): number => {
   return getSum(rowResults);
 };
 
-// First attempt too high: 54228
+// First attempt 54228 -- too high
 // Second attempt 75106 -- must also be too high
+// Third attempt 54188 -- too low!!!
 export const solvePuzzleB = (input: string): number => {
   const rows = getRowsFromTextBlock(input);
   const rowResults = rows.map((row) => getRowResultB(row));
