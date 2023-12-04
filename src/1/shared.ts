@@ -13,20 +13,6 @@ export const getNumbersFromString = (input: string): number[] => {
 };
 
 export const getNumbersAndWordNumbersFromString = (input: string) => {
-  // const randomFuckerNumberWords = [
-  //   'oneight',
-  //   'twone',
-  //   'threeight',
-  //   'fiveight',
-  //   'sevenine',
-  //   'eightwo',
-  //   'eighthree',
-  //   'nineight',
-  // ];
-
-  // const randomFuckerNumbers = [18, 21, 38, 58, 79, 82, 83, 98];
-  // const randomFuckerNumbersIntendedValue = [1, 2, 3, 5, 7, 8, 8, 9];
-
   const numberWords = [
     'one',
     'two',
@@ -39,53 +25,19 @@ export const getNumbersAndWordNumbersFromString = (input: string) => {
     'nine',
   ];
 
-  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  // Match numbers and number words
+  const regex = /(?=(one|two|three|four|five|six|seven|eight|nine|\d))/g;
 
-  // const randomFuckerWordsIndexes = randomFuckerNumberWords.map((str, index) =>
-  //   input.indexOf(str) !== -1
-  //     ? [randomFuckerNumbers[index], input.indexOf(str)]
-  //     : [],
-  // );
-
-  const normalWordIndexes = numbers.map((num) => {
-    const strIndex = input.indexOf(num.toString());
-    return strIndex !== -1 ? [num, strIndex] : [];
+  const matches = Array.from(input.matchAll(regex)).map((match) => {
+    console.log(match);
+    // Parse numbers
+    console.log(match);
+    if (!isNaN(parseInt(match[1]))) return parseInt(match[1]);
+    // Replace words
+    return numberWords.indexOf(match[1]) + 1;
   });
 
-  const numberIndexes = numberWords.map((str, index) =>
-    input.indexOf(str) !== -1 ? [numbers[index], input.indexOf(str)] : [],
-  );
-
-  const result = normalWordIndexes
-    .concat(numberIndexes)
-    // .concat(randomFuckerWordsIndexes)
-    .filter((item) => item.length)
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    .sort((a, b) => a[1] - b[1])
-    .flatMap((item) => item[0]);
-
-  return result;
-
-  // const deleteIndexes: number[] = [];
-
-  // randomFuckerNumbers.forEach((mfNum) => {
-  //   const i = result.indexOf(mfNum);
-
-  //   if (i !== -1) {
-  //     deleteIndexes.push(i - 1);
-  //     deleteIndexes.push(i + 1);
-  //   }
-  // });
-
-  // const filteredResult = result.filter(
-  //   (_, index) => !deleteIndexes.includes(index),
-  // );
-
-  // return filteredResult.map((item) => {
-  //   const i = randomFuckerNumbers.indexOf(item);
-  //   return i !== -1 ? randomFuckerNumbersIntendedValue[i] : item;
-  // });
+  return matches;
 };
 
 export const concatNumberFromFirstAndLastItem = (input: number[]): number => {
@@ -96,8 +48,15 @@ export const concatNumberFromFirstAndLastItem = (input: number[]): number => {
   );
 };
 
-export const getRowResultB = (input: string): number =>
-  concatNumberFromFirstAndLastItem(getNumbersAndWordNumbersFromString(input));
+export const getRowResultB = (input: string): number => {
+  const resM = getRowResultBM(input);
+  const res = concatNumberFromFirstAndLastItem(
+    getNumbersAndWordNumbersFromString(input),
+  );
+
+  if (resM !== res) console.error('Bad match', input, resM);
+  return res;
+};
 
 export const getSum = (input: number[]): number => {
   return input.reduce((partialSum, a) => partialSum + a, 0);
@@ -112,9 +71,6 @@ export const solvePuzzleA = (input: string): number => {
   return getSum(rowResults);
 };
 
-// First attempt 54228 -- too high
-// Second attempt 75106 -- must also be too high
-// Third attempt 54188 -- too low!!!
 export const solvePuzzleB = (input: string): number => {
   const rows = getRowsFromTextBlock(input);
   const rowResults = rows.map((row) => getRowResultB(row));
