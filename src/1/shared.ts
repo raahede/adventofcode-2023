@@ -29,9 +29,7 @@ export const getNumbersAndWordNumbersFromString = (input: string) => {
   const regex = /(?=(one|two|three|four|five|six|seven|eight|nine|\d))/g;
 
   const matches = Array.from(input.matchAll(regex)).map((match) => {
-    console.log(match);
     // Parse numbers
-    console.log(match);
     if (!isNaN(parseInt(match[1]))) return parseInt(match[1]);
     // Replace words
     return numberWords.indexOf(match[1]) + 1;
@@ -48,15 +46,8 @@ export const concatNumberFromFirstAndLastItem = (input: number[]): number => {
   );
 };
 
-export const getRowResultB = (input: string): number => {
-  const resM = getRowResultBM(input);
-  const res = concatNumberFromFirstAndLastItem(
-    getNumbersAndWordNumbersFromString(input),
-  );
-
-  if (resM !== res) console.error('Bad match', input, resM);
-  return res;
-};
+export const getRowResultB = (input: string): number =>
+  concatNumberFromFirstAndLastItem(getNumbersAndWordNumbersFromString(input));
 
 export const getSum = (input: number[]): number => {
   return input.reduce((partialSum, a) => partialSum + a, 0);
