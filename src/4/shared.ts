@@ -23,7 +23,9 @@ export const getCardId = (input: string): number => {
   return parseInt(idStr[0]);
 };
 
-export const getCardInfo = (input: string): number[] => {
+type Card = { id: number; points: number; matches: number };
+
+export const getCardInfo = (input: string): Card => {
   const id = getCardId(input);
   const [winningNumbers, numbers] = getCardNumbers(input);
   const matchingNumbers = numbers.filter((num) => winningNumbers.includes(num));
@@ -32,11 +34,44 @@ export const getCardInfo = (input: string): number[] => {
     (partialSum) => (partialSum === 0 ? 1 : partialSum * 2),
     0,
   );
-  return [id, points];
+  return { id, points, matches: matchingNumbers.length };
+};
+
+export const getCardPoints = (input: string): number =>
+  getCardInfo(input).points;
+
+// Ugly solution, but it works
+// Counts number of cards of specific id and adds to map
+// {
+//   1: 1,
+//   2: 2,
+//   3: 4
+// }
+export const getCardCopies = (
+  { id, matches }: Card,
+  cards: Card[],
+  cardCopiesMap: { [key: number]: number },
+): { [key: number]: number } => {
+  cardCopiesMap[id] = cardCopiesMap[id] ? cardCopiesMap[id] + 1 : 1;
+  for (let index = 0; index < matches; index++) {
+    const nextCardId = id + index + 1;
+    if (nextCardId > cards.length) break;
+    getCardCopies(cards[nextCardId - 1], cards, cardCopiesMap);
+  }
+
+  return cardCopiesMap;
 };
 
 export const solvePuzzleA = (input: string): number => {
   const rows = getRowsFromTextBlock(input);
-  const rowResults = rows.map((row) => getCardInfo(row)[1]);
+  const rowResults = rows.map((row) => getCardPoints(row));
   return getSum(rowResults);
+};
+
+export const solvePuzzleB = (input: string): number => {
+  const rows = getRowsFromTextBlock(input);
+  const cards = rows.map((row) => getCardInfo(row));
+  const cardCopiesMap = {};
+  cards.forEach((card) => getCardCopies(card, cards, cardCopiesMap));
+  return getSum(Object.values(cardCopiesMap));
 };

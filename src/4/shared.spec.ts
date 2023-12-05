@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { getCardNumbers, getCardPoints, solvePuzzleA } from './shared';
+import {
+  getCardNumbers,
+  getCardPoints,
+  solvePuzzleA,
+  solvePuzzleB,
+} from './shared';
 
 const testData1 = `
 
@@ -49,5 +54,11 @@ describe('getCardPoints', () => {
 describe('solvePuzzleA', () => {
   it('does the thing...', () => {
     expect(solvePuzzleA(testData1)).toBe(13);
+  });
+});
+
+describe('solvePuzzleB', () => {
+  it('does the thing...', () => {
+    expect(solvePuzzleB(testData1)).toBe(30);
   });
 });
