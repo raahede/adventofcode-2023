@@ -44,12 +44,24 @@ export const numbersWithAdjacentSymbols = (
         }
         return true;
       });
-      console.log({ hasAdjacantSymbol });
+
       return hasAdjacantSymbol;
     })
     .map(([number]) => number);
 };
 
 export const solvePuzzleA = (input: string): number => {
-  return 0;
+  const rows = getRowsFromTextBlock(input);
+  let numbers: number[] = [];
+
+  for (let i = 0; i < rows.length; i++) {
+    const prevLine = i !== 0 ? rows[i - 1] : '';
+    const currentLine = rows[i];
+    const nexLine = i !== rows.length - 1 ? rows[i + 1] : '';
+    numbers = numbers.concat(
+      numbersWithAdjacentSymbols(prevLine, currentLine, nexLine),
+    );
+  }
+
+  return getSum(numbers);
 };

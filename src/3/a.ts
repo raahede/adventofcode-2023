@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { gameConfig, solvePuzzleA } from './shared';
+import { solvePuzzleA } from './shared';
 
 fs.readFile(__dirname + '/data.txt', (err, data) => {
   if (err) {
@@ -9,7 +9,7 @@ fs.readFile(__dirname + '/data.txt', (err, data) => {
 
   if (data) {
     try {
-      console.log(solvePuzzleA(data.toString(), gameConfig));
+      console.log(solvePuzzleA(data.toString()));
     } catch (error) {
       console.error(err);
       process.exit(1);
