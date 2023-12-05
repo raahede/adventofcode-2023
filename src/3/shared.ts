@@ -50,6 +50,37 @@ export const numbersWithAdjacentSymbols = (
     .map(([number]) => number);
 };
 
+export const symbolsWithAdjacentNumbers = (
+  prevLine: string,
+  currentLine: string,
+  nexLine: string,
+): number[][] => {
+  const numbersPrev = getNumberInfo(prevLine);
+  const numbersCurrent = getNumberInfo(currentLine);
+  const numbersNext = getNumberInfo(nexLine);
+  const symbolsCurrent = getSymbolIndices(currentLine);
+
+  return symbolsCurrent.flatMap((symbolIndex) => {
+    const adjacentNumbers: number[] = [];
+    [...numbersPrev, ...numbersCurrent, ...numbersNext].forEach(
+      ([number, numberIndex]) => {
+        const numberLength = number.toString().length;
+        const diagonalStartIndex =
+          numberIndex === 0 ? numberIndex : numberIndex - 1;
+        const diagonaEndIndex = numberIndex + numberLength;
+        const isAdjacent =
+          symbolIndex >= diagonalStartIndex && symbolIndex <= diagonaEndIndex;
+        if (isAdjacent) {
+          adjacentNumbers.push(number);
+        }
+      },
+    );
+
+    if (adjacentNumbers.length === 2) return [adjacentNumbers];
+    return [];
+  });
+};
+
 export const solvePuzzleA = (input: string): number => {
   const rows = getRowsFromTextBlock(input);
   let numbers: number[] = [];
@@ -60,6 +91,24 @@ export const solvePuzzleA = (input: string): number => {
     const nexLine = i !== rows.length - 1 ? rows[i + 1] : '';
     numbers = numbers.concat(
       numbersWithAdjacentSymbols(prevLine, currentLine, nexLine),
+    );
+  }
+
+  return getSum(numbers);
+};
+
+export const solvePuzzleB = (input: string): number => {
+  const rows = getRowsFromTextBlock(input);
+  let numbers: number[] = [];
+
+  for (let i = 0; i < rows.length; i++) {
+    const prevLine = i !== 0 ? rows[i - 1] : '';
+    const currentLine = rows[i];
+    const nexLine = i !== rows.length - 1 ? rows[i + 1] : '';
+    numbers = numbers.concat(
+      symbolsWithAdjacentNumbers(prevLine, currentLine, nexLine).map(
+        ([a, b]) => a * b,
+      ),
     );
   }
 

@@ -4,6 +4,8 @@ import {
   getSymbolIndices,
   numbersWithAdjacentSymbols,
   solvePuzzleA,
+  solvePuzzleB,
+  symbolsWithAdjacentNumbers,
 } from './shared';
 
 const testData1 = `
@@ -54,8 +56,37 @@ describe('numbersWithAdjacentSymbols', () => {
   });
 });
 
+describe('symbolsWithAdjacentNumbers', () => {
+  it('returns the numbers are adjacent to the current symbols', () => {
+    expect(
+      symbolsWithAdjacentNumbers('467..114..', '...*......', '..35..633.'),
+    ).toStrictEqual([[467, 35]]);
+
+    expect(
+      symbolsWithAdjacentNumbers('......755.', '...$.*....', '.664.598..'),
+    ).toStrictEqual([[755, 598]]);
+
+    expect(
+      symbolsWithAdjacentNumbers(
+        '......755.467..114..',
+        '...$.*.......*......',
+        '.664.598....35..633.',
+      ),
+    ).toStrictEqual([
+      [755, 598],
+      [467, 35],
+    ]);
+  });
+});
+
 describe('solvePuzzleA', () => {
   it('does the thing...', () => {
     expect(solvePuzzleA(testData1)).toBe(4361);
+  });
+});
+
+describe('solvePuzzleB', () => {
+  it('does the thing...', () => {
+    expect(solvePuzzleB(testData1)).toBe(467835);
   });
 });
