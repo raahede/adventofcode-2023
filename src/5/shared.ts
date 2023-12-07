@@ -19,34 +19,23 @@ export const getData = (input: string) => {
   };
 };
 
-export const getFullMap = (map: number[][]): number[][] => {
-  return map
-    .map((mapRow) => {
-      const destination: number[] = [];
-      const source: number[] = [];
-      for (let index = 0; index < mapRow[2]; index++) {
-        destination.push(mapRow[0] + index);
-        source.push(mapRow[1] + index);
-      }
-      return [destination, source];
-    })
-    .reduce(
-      (a, b) => [
-        [...a[0], ...b[0]],
-        [...a[1], ...b[1]],
-      ],
-      [[], []],
-    );
-};
-
 export const getMapResults = (input: number[], map: number[][]): number[] => {
-  const [destination, source] = getFullMap(map);
   return input.map((number) => {
-    const sourceIndex = source.indexOf(number);
-    return sourceIndex !== -1 ? destination[sourceIndex] : number;
+    let replacement = number;
+    for (let index = 0; index < map.length; index++) {
+      const mapRow = map[index];
+      const [destination, source, multiplier] = mapRow;
+      if (number >= source && number <= source + multiplier) {
+        const diff = number - source;
+        replacement = destination + diff;
+        break;
+      }
+    }
+    return replacement;
   });
 };
 
+// Answer too low 107591709
 export const solvePuzzleA = (input: string): number => {
   const { seeds, maps } = getData(input);
   const result = maps.reduce(

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getData, getFullMap, getMapResults, solvePuzzleA } from './shared';
+import { getData, getMapResults, solvePuzzleA } from './shared';
 
 const testData0 = `
 
@@ -70,20 +70,6 @@ describe('getData', () => {
         ],
       ],
     });
-  });
-});
-
-describe('getFullMap', () => {
-  it('adds all numbers to map', () => {
-    expect(
-      getFullMap([
-        [50, 98, 2],
-        [52, 50, 3],
-      ]),
-    ).toStrictEqual([
-      [50, 51, 52, 53, 54],
-      [98, 99, 50, 51, 52],
-    ]);
   });
 });
 
