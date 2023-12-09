@@ -4,6 +4,7 @@ import { getNumberRowsFromTextBlock } from '../utils';
 const getDiffs = (input: number[]): number[] => {
   return input.flatMap((num, i) =>
     // Subtract preceding number from next to get diff
+    // IMPORTANT: not using absolute numbers to make this diff
     typeof input[i + 1] !== 'undefined' ? input[i + 1] - num : [],
   );
 };
